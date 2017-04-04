@@ -69,15 +69,8 @@ def extract_row_content(row, race_meta_data):
         parent = '{}/'.format(parent) if parent else ''
         path = 'td[{}]/{}text()'.format(index, parent)
         value = row.xpath(path)
-        value = value[0] if value else ''
-        value = value.replace(u'\xa0', u' ')
-        value = value.strip()
-        try:
-            value = str(value)
-        except UnicodeEncodeError:
-            print('Cannot Encode Weird Char:', value)
-            value = value.encode('ascii', 'ignore')
-        return value
+        list_item = value[0] if value else ''
+        return sanitize_string(list_item)
 
     pace_or_chiptime = get_data_at_index(9, parent='nobr').split() or ['']
     
@@ -99,6 +92,15 @@ def extract_row_content(row, race_meta_data):
     return None
 
 
+def sanitize_string(string):
+    stripped = string.replace(u'\xa0', u' ').strip()
+    try:
+        clean = str(stripped)
+    except UnicodeEncodeError:
+        print('Cannot Encode Weird Char:', stripped)
+        clean = stripped.encode('ascii', 'ignore')
+    return clean
+
 def compile_row_result(rows, race_meta_data):
     return [extract_row_content(row, race_meta_data) for row in rows]
 
@@ -108,6 +110,6 @@ def compile_row_metadata(header, race):
         return []
     return [
         race[0], # year
-        header.xpath('span/text()')[0].strip(), # Race Date
+        sanitize_string(header.xpath('span/text()')[0]), # Race Date
         header.text, # Race name
     ]
