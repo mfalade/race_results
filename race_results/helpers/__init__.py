@@ -1,3 +1,5 @@
+import csv
+
 def get_years_between_range(lower_limit=None, upper_limit=None):
 	lower_limit = lower_limit or 1998
 	upper_limit = upper_limit or 2017
@@ -29,3 +31,21 @@ def get_cookies():
         'uidcode':"44dcf109a465b37609b3efdfc931d57b",
         'uresultgroup':"518313"
     }
+
+
+def get_race_result_links():
+    with open('links_with_result.csv', 'r') as links_file:
+        for row in csv.reader(links_file):
+            yield row
+
+
+def extract_row_content(row):
+    import pdb; pdb.set_trace() 
+
+
+def extract_table_contents(tree):
+    rows = tree.xpath('//table/tr[2]/td/table/tr')
+    import pdb; pdb.set_trace() 
+    
+    for row in rows:
+        row_content = extract_row_content(row)

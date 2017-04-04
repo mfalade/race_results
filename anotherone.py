@@ -5,9 +5,10 @@ EMAIL = "solomonx3@gmail.com"
 PASSWORD = "solomonXXX123"
 
 LOGIN_URL = "http://www.roadraceresults.com/login.php"
-URL = "http://www.roadraceresults.com/complete-race-calendar-and-results.php?y=1998&m=4&distance=All&series=All&city=All&region=ON"
+URL = "http://www.roadraceresults.com/display-race-results.php?racename=2000-01-01-test-race-name"
 
-def main():
+def custom_request(cookies):
+    # Cos scrapy's built in request is shitty in a way..
     session = requests.session()
     cookies = {
         'ferec': "29972",
@@ -34,21 +35,13 @@ def main():
         'uresultgroup':"518313"
     }
 
-    payload = {
-        "email": EMAIL, 
-        "password": PASSWORD
-    }
-
-    # Perform login
-    # session.post(LOGIN_URL, data=payload)
-
     # Scrape url
     result = session.get(URL, cookies=cookies)
     tree = html.fromstring(result.content)
-    rows = tree.xpath('//table/tr/td[3]/a/@href')
+    rows = tree.xpath('//table/tr[2]/td/table/tr')
     import ipdb; ipdb.set_trace()
 
-    print(bucket_names)
+
 
 if __name__ == '__main__':
     main()
