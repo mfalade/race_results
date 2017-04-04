@@ -6,6 +6,11 @@ from lxml import html
 
 session = requests.session()
 
+proxies = {
+    'http'  : '142.0.39.119:21303', 
+    'https' : '142.0.39.119:21303'
+}
+
 
 def custom_request(url):
     # Cos scrapy's built in request is shitty in a way..
@@ -20,7 +25,7 @@ def custom_request(url):
 
     header = header[0]
     if not header.text or not header.xpath('span/text()'):
-        header = header.xpath('a')
+        header = header.xpath('a')[0]
     rows = tree.xpath('//table/tr[2]/td/table/tr')
     return rows, header
 
@@ -87,7 +92,7 @@ def compile_row_result(rows, race_meta_data):
 
 
 def compile_row_metadata(header, race):
-    if not header:
+    if len(header) == 0:
         return []
     return [
         race[0], # year
