@@ -20,7 +20,8 @@ CSV_HEADER = [
     'TIME',
     'AGE PLACE',
     'GENDER PLACE',
-    'PACE CHIPTIME SPLITS'
+    'PACE',
+    'CHIPTIME SPLITS'
 ]
 
 
@@ -35,8 +36,7 @@ def process_item(race):
 
 def main():
     with open(OUTPUT_FILE, 'a') as output_file:
-        writer = csv.writer(output_file)
-
+        writer = csv.writer(output_file)      
         for race in get_race_result_links():
             print('*' * 50)
             print('Processing Item for ', race)

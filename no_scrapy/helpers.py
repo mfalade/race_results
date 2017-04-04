@@ -71,8 +71,16 @@ def extract_row_content(row, race_meta_data):
         value = row.xpath(path)
         value = value[0] if value else ''
         value = value.replace(u'\xa0', u' ')
-        return str(value.strip())
+        value = value.strip()
+        try:
+            value = str(value)
+        except UnicodeEncodeError:
+            print('Cannot Encode Weird Char:', value)
+            value = value.encode('ascii', 'ignore')
+        return value
 
+    pace_or_chiptime = get_data_at_index(9, parent='nobr').split() or ['']
+    
     res = [
         get_data_at_index(2), # place
         get_data_at_index(3), # bib
@@ -81,7 +89,8 @@ def extract_row_content(row, race_meta_data):
         get_data_at_index(6), # time
         get_data_at_index(7, parent='nobr'), # age_place
         get_data_at_index(8), # gender-place
-        get_data_at_index(9, parent='nobr'), # pace
+        pace_or_chiptime[0], # pace
+        pace_or_chiptime[1] if len(pace_or_chiptime) > 1 else '' # chip time
     ]
 
     if any(res):
