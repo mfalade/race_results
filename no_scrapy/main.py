@@ -36,13 +36,17 @@ def process_item(race):
 def main():
     with open(OUTPUT_FILE, 'a') as output_file:
         writer = csv.writer(output_file)
-        writer.writerow(CSV_HEADER)
 
         for race in get_race_result_links():
             print('*' * 50)
             print('Processing Item for ', race)
             for result in process_item(race):
-                writer.writerow(result)
+                if result:
+                    writer.writerow(result)
+                else:
+                    print('-' * 50)
+                    print(race)
+                    print('-' * 50)
             print('Process complete ')
             print('.' * 50)
 

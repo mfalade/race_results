@@ -84,7 +84,10 @@ def extract_row_content(row, race_meta_data):
         get_data_at_index(9, parent='nobr'), # pace
     ]
 
-    return race_meta_data + res
+    if any(res):
+        return race_meta_data + res
+
+    return None
 
 
 def compile_row_result(rows, race_meta_data):
