@@ -115,5 +115,5 @@ def compile_row_metadata(header, race):
     return [
         race[0], # year
         sanitize_string(header.xpath('span/text()')[0]), # Race Date
-        header.text, # Race name
+        sanitize_string(header.text), # Race name
     ]
