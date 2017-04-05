@@ -1,6 +1,7 @@
 import csv
 from helpers import (
     custom_request,
+    get_cookies,
     get_race_result_links,
     compile_row_result,
     compile_row_metadata
@@ -26,9 +27,9 @@ CSV_HEADER = [
 ]
 
 
-def process_item(race):
+def process_item(race, cookies):
     url = BASE_URL.format(url_prefix=race[1])
-    rows, header = custom_request(url)
+    rows, header = custom_request(url, cookies)
 
     race_meta_data = compile_row_metadata(header, race)
 
@@ -37,6 +38,7 @@ def process_item(race):
 
 def main():
     _logger.info('Starting spider.')
+    cookies = get_cookies()
     with open(OUTPUT_FILE, 'a') as output_file:
         writer = csv.writer(output_file)   
         writer.writerow(CSV_HEADER)
@@ -46,7 +48,7 @@ def main():
             _logger.debug('Processing Item for ')
             _logger.debug(race)
 
-            for result in process_item(race):
+            for result in process_item(race, cookies):
                 if result:
                     writer.writerow(result)
                 else:
@@ -55,6 +57,7 @@ def main():
                     _logger.debug('-' * 50)
             _logger.info('Process complete ')
             _logger.info('^' * 50)
+            _logger.info('.' * 50)
             _logger.info('.' * 50)
 
 

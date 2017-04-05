@@ -3,6 +3,8 @@ import csv
 import requests
 from lxml import html
 
+from logger import CustomLogger
+_logger = CustomLogger(__name__)
 
 session = requests.session()
 
@@ -12,11 +14,11 @@ proxies = {
 }
 
 
-def custom_request(url):
+def custom_request(url, cookies):
     # Cos scrapy's built in request is shitty in a way..
     # It doesn't completely parse the response.body and that's messed up
-    
-    result = session.get(url, cookies=get_cookies())
+    _logger.debug('Making get request to ' + url)
+    result = session.get(url, cookies=cookies)
     tree = html.fromstring(result.content)
     header = tree.xpath('//div[@class="centercolwidepanel"]/table/tr/td/h1')
     
@@ -31,6 +33,7 @@ def custom_request(url):
 
 
 def get_cookies():
+    _logger.debug('Fetching cookies')
     return {
         'ferec': "29972",
         'adkeyword1': "london",
@@ -97,7 +100,9 @@ def sanitize_string(string):
     try:
         clean = str(stripped)
     except UnicodeEncodeError:
-        print('Cannot Encode Weird Char:', stripped)
+        _logger.error('Cannot Encode Weird Char:')
+        _logger.error(stripped)
+        _logger.error('-----------------')
         clean = stripped.encode('ascii', 'ignore')
     return clean
 
