@@ -53,6 +53,7 @@ def main():
                     writer.writerow(result)
                 else:
                     _logger.debug('-' * 50)
+                    _logger.debug('This race has no results.')
                     _logger.debug(race)
                     _logger.debug('-' * 50)
             _logger.info('Process complete ')

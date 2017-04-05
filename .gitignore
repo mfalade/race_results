@@ -3,3 +3,4 @@ proxies.txt
 *.pyc
 .DS_Store
 *.log
+.env
