@@ -42,7 +42,7 @@ def main():
     with open(OUTPUT_FILE, 'a') as output_file:
         writer = csv.writer(output_file)   
         writer.writerow(CSV_HEADER)
-        for race in [['2000', 'display-race-results.php?racename=2000-03-05-grimsby-half']]:
+        for race in get_race_result_links():
             print(race, '...')
             _logger.info('*' * 50)
             _logger.debug('Processing Item for ')
