@@ -23,7 +23,6 @@ class RaceResultsSpider(scrapy.Spider):
             
     def parse(self, response):
         tree = html.fromstring(response.body)
-        import pdb; pdb.set_trace()
         tree = custom_request(response.url, self.cookies)
         yield {
             'url': response.url,

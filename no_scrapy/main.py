@@ -5,7 +5,8 @@ from helpers import (
     compile_row_result,
     compile_row_metadata
 )
-
+from logger import CustomLogger
+_logger = CustomLogger(__name__)
 
 BASE_URL = 'http://www.roadraceresults.com/{url_prefix}'
 OUTPUT_FILE = 'race_results.csv'
@@ -35,21 +36,26 @@ def process_item(race):
 
 
 def main():
+    _logger.info('Starting spider.')
     with open(OUTPUT_FILE, 'a') as output_file:
         writer = csv.writer(output_file)   
         writer.writerow(CSV_HEADER)
         for race in [['2000', 'display-race-results.php?racename=2000-03-05-grimsby-half']]:
-            print('*' * 50)
-            print('Processing Item for ', race)
+            print(race, '...')
+            _logger.info('*' * 50)
+            _logger.debug('Processing Item for ')
+            _logger.debug(race)
+
             for result in process_item(race):
                 if result:
                     writer.writerow(result)
                 else:
-                    print('-' * 50)
-                    print(race)
-                    print('-' * 50)
-            print('Process complete ')
-            print('.' * 50)
+                    _logger.debug('-' * 50)
+                    _logger.debug(race)
+                    _logger.debug('-' * 50)
+            _logger.info('Process complete ')
+            _logger.info('^' * 50)
+            _logger.info('.' * 50)
 
 
 if __name__ == '__main__':
