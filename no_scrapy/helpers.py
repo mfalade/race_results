@@ -62,7 +62,7 @@ def get_cookies():
 
 
 def get_race_result_links():
-    with open('links_with_result.csv', 'r') as links_file:
+    with open('links_with_results.csv', 'r') as links_file:
         for row in csv.reader(links_file):
             yield row
 

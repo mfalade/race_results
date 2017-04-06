@@ -1,11 +1,11 @@
 import csv
 
-links_with_result_file = 'links_with_result.csv'
+links_with_results_file = 'links_with_results.csv'
 
 
 class RaceResultsLinksPipeline(object):
     def open_spider(self, spider):
-        self.output_file = open(links_with_result_file, 'a')
+        self.output_file = open(links_with_results_file, 'a')
         self.writer = csv.writer(self.output_file)
 
     def close_spider(self, spider):

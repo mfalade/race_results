@@ -43,13 +43,13 @@ pip install -r requirements.txt
 	
 	# rrl is simply an abbreviation for `race result links`
 	```
-	+ This woud create a file named `links_with_result.csv` in the root dir.
-	+ If you inspect this file, you'd see urls to all the race results from 1998 to 2017
+	+ This woud create a file named `links_with_results.csv` in the root dir.
+	+ If you inspect this file, you'd see urls to all the race results from 1998 to 2017 (of course the year range can be easily customized)
 	+ We'd referece this file in the next step
 	+ To get the actual race results, I decided not to use scrapy as some data are being lost in the way it parses the response body
 	+ I built a custom scraper which does a better job at this. You can run this by simply running
 	```python
 	python no_scrapy/main.py
 	```
-	+ This would crawl each link in the `links_with_result.csv` file and write the output to a new csv file `race_results.csv`
+	+ This would crawl each link in the `links_with_results.csv` file and write the output to a new csv file `race_results.csv`
 	+ And there you have it.
