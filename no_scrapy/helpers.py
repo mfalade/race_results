@@ -1,14 +1,16 @@
-import os
 import csv
+import os
 
-import requests
+from dotenv import load_dotenv, find_dotenv
 from lxml import html
+import requests
 
 from logger import CustomLogger
+
+
 _logger = CustomLogger(__name__)
-
+load_dotenv(find_dotenv())
 session = requests.session()
-
 proxies = {
     'http'  : '142.0.39.119:21303', 
     'https' : '142.0.39.119:21303'
@@ -104,6 +106,7 @@ def sanitize_string(string):
         _logger.error('-----------------')
         clean = stripped.encode('ascii', 'ignore')
     return clean
+
 
 def compile_row_result(rows, race_meta_data):
     return [extract_row_content(row, race_meta_data) for row in rows]
